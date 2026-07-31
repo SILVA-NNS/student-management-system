@@ -1,2 +1,5 @@
 spring.mongodb.uri=mongodb+srv://<db_username>:<db_password>@cluster0.kr22xxv.mongodb.net/?appName=Cluster0
 server.port=5000
+
+jwt.secret=your-actual-32-plus-character-secret-key-here-change-this
+jwt.expiration=3600000
