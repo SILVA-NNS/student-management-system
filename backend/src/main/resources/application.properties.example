@@ -1,0 +1,2 @@
+spring.mongodb.uri=mongodb+srv://<db_username>:<db_password>@cluster0.kr22xxv.mongodb.net/?appName=Cluster0
+server.port=5000
