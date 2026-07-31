@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   if (checkingAuth) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-slate-950 text-white">
+      <div className="flex h-screen w-screen items-center justify-center bg-slate-900 text-white">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="h-10 w-10 animate-spin text-indigo-500" />
           <p className="text-sm font-medium text-slate-400">Verifying session...</p>
@@ -61,9 +61,9 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-screen grid-cols-1 md:grid-cols-12 bg-slate-950 text-slate-100 antialiased overflow-hidden">
+    <main className="grid min-h-screen grid-cols-1 md:grid-cols-12 bg-slate-900 text-slate-100 antialiased overflow-hidden">
       {/* Left side: Premium Brand Panel */}
-      <section className="hidden md:flex md:col-span-5 lg:col-span-6 relative flex-col justify-between p-12 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-r border-slate-900">
+      <section className="hidden md:flex md:col-span-5 lg:col-span-6 relative flex-col justify-between p-12 bg-gradient-to-br from-indigo-900/80 via-slate-850 to-purple-900/80 border-r border-slate-800">
         {/* Glow overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.05),transparent_40%)]" />
@@ -74,7 +74,7 @@ export default function LoginPage() {
             <GraduationCap className="h-6 w-6" />
           </div>
           <span className="font-semibold text-lg tracking-wider bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
-            SEMS PORTAL
+            CampusDesk
           </span>
         </div>
 
@@ -141,7 +141,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@sms.com"
-                    className="w-full pl-10 pr-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-600 transition-all backdrop-blur-sm"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700/80 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all backdrop-blur-sm"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-600 transition-all backdrop-blur-sm"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700/80 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all backdrop-blur-sm"
                   />
                 </div>
               </div>
@@ -175,7 +175,7 @@ export default function LoginPage() {
               id="submit-login"
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 py-3.5 px-4 bg-indigo-650 hover:bg-indigo-600 active:bg-indigo-700 disabled:bg-indigo-850 text-white text-sm font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg shadow-indigo-950/40 relative group overflow-hidden border border-indigo-500/20"
+              className="w-full flex justify-center items-center gap-2 py-3.5 px-4 bg-indigo-650 hover:bg-indigo-600 active:bg-indigo-700 disabled:bg-indigo-850 text-white text-sm font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg shadow-indigo-900/40 relative group overflow-hidden border border-indigo-500/20"
             >
               {loading ? (
                 <>

@@ -111,7 +111,7 @@ export default function StudentDirectory() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by full name or email address..."
-            className="w-full pl-10 pr-10 py-3 bg-slate-900/50 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-600 transition-all backdrop-blur-sm"
+            className="w-full pl-10 pr-10 py-3 bg-slate-800/50 border border-slate-700/80 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all backdrop-blur-sm"
           />
           {searchQuery && (
             <button
@@ -125,14 +125,14 @@ export default function StudentDirectory() {
         </div>
         <button
           type="submit"
-          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 hover:text-white text-sm font-semibold rounded-xl transition-all cursor-pointer"
+          className="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-sm font-semibold rounded-xl transition-all cursor-pointer"
         >
           Search
         </button>
       </form>
 
       {/* Table Directory */}
-      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/80 rounded-2xl overflow-hidden shadow-lg">
+      <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-750/80 rounded-2xl overflow-hidden shadow-lg">
         {loading ? (
           <div className="p-20 flex flex-col justify-center items-center gap-3 text-slate-400">
             <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
@@ -163,7 +163,7 @@ export default function StudentDirectory() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800/60 text-slate-400 text-xs font-semibold uppercase tracking-wider bg-slate-900/80">
+                <tr className="border-b border-slate-750 text-slate-400 text-xs font-semibold uppercase tracking-wider bg-slate-800/80">
                   <th className="py-4 px-6">ID</th>
                   <th className="py-4 px-6">Full Name</th>
                   <th className="py-4 px-6">Email</th>
@@ -225,7 +225,7 @@ export default function StudentDirectory() {
       {selectedStudent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={() => setSelectedStudent(null)} />
-          <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl animate-scaleUp">
+          <div className="relative w-full max-w-lg bg-slate-850 border border-slate-750 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl animate-scaleUp">
             {/* Header / Close button */}
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
@@ -247,7 +247,7 @@ export default function StudentDirectory() {
 
             {/* Content list */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <User className="h-3.5 w-3.5" />
                   <span>Full Name</span>
@@ -255,7 +255,7 @@ export default function StudentDirectory() {
                 <p className="text-sm font-semibold text-white">{selectedStudent.fullName}</p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <Mail className="h-3.5 w-3.5" />
                   <span>Email Address</span>
@@ -263,7 +263,7 @@ export default function StudentDirectory() {
                 <p className="text-sm text-slate-300 break-all">{selectedStudent.email}</p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <Phone className="h-3.5 w-3.5" />
                   <span>Phone Number</span>
@@ -271,7 +271,7 @@ export default function StudentDirectory() {
                 <p className="text-sm text-slate-350">{selectedStudent.phoneNumber || "N/A"}</p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <BookOpen className="h-3.5 w-3.5" />
                   <span>Course</span>
@@ -279,14 +279,14 @@ export default function StudentDirectory() {
                 <p className="text-sm text-white">{selectedStudent.course}</p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <span>Age / Gender</span>
                 </div>
                 <p className="text-sm text-slate-300">{selectedStudent.age} years / {selectedStudent.gender}</p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <Calendar className="h-3.5 w-3.5" />
                   <span>Registration Date</span>
@@ -296,7 +296,7 @@ export default function StudentDirectory() {
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-950/50 border border-slate-800/40 rounded-xl space-y-1 sm:col-span-2">
+              <div className="p-4 bg-slate-900/50 border border-slate-800/40 rounded-xl space-y-1 sm:col-span-2">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <MapPin className="h-3.5 w-3.5" />
                   <span>Home Address</span>
@@ -312,7 +312,7 @@ export default function StudentDirectory() {
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={() => setShowDeleteConfirm(null)} />
-          <div className="relative w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-6 shadow-2xl animate-scaleUp text-center">
+          <div className="relative w-full max-w-sm bg-slate-850 border border-slate-750 rounded-3xl p-6 space-y-6 shadow-2xl animate-scaleUp text-center">
             <div className="h-12 w-12 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-500/20">
               <Trash2 className="h-6 w-6" />
             </div>

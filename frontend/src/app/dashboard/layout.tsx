@@ -43,7 +43,7 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-slate-950 text-white">
+      <div className="flex h-screen w-screen items-center justify-center bg-slate-900 text-white">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="h-10 w-10 animate-spin text-indigo-500" />
           <p className="text-sm font-medium text-slate-400">Loading administrative portal...</p>
@@ -56,9 +56,9 @@ export default function DashboardLayout({
   const isActive = (path: string) => pathname === path;
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100 font-sans antialiased">
+    <div className="flex min-h-screen bg-slate-900 text-slate-100 font-sans antialiased">
       {/* Sidebar Navigation */}
-      <aside className="hidden lg:flex flex-col w-64 bg-slate-900 border-r border-slate-800 p-6 justify-between shrink-0 relative">
+      <aside className="hidden lg:flex flex-col w-64 bg-slate-800 border-r border-slate-700 p-6 justify-between shrink-0 relative">
         <div className="space-y-8 relative">
           {/* Logo Branding */}
           <Link href="/dashboard" className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default function DashboardLayout({
               <GraduationCap className="h-6 w-6" />
             </div>
             <span className="font-semibold text-lg tracking-wider bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
-              SEMS PORTAL
+              CampusDesk
             </span>
           </Link>
 
@@ -121,7 +121,7 @@ export default function DashboardLayout({
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2.5 px-4 py-3 text-sm font-medium rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-all duration-200 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2.5 px-4 py-3 text-sm font-medium rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all duration-200 cursor-pointer"
           >
             <LogOut className="h-4 w-4" />
             <span>Sign Out</span>
@@ -132,14 +132,14 @@ export default function DashboardLayout({
       {/* Main Content Area */}
       <div className="flex flex-col flex-1 min-w-0 overflow-y-auto">
         {/* Top Header */}
-        <header className="h-16 border-b border-slate-900 bg-slate-950/80 backdrop-blur-md px-6 sm:px-10 flex items-center justify-between sticky top-0 z-10">
+        <header className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md px-6 sm:px-10 flex items-center justify-between sticky top-0 z-10">
           <div className="flex items-center gap-3 lg:hidden">
             <Link href="/dashboard" className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
                 <GraduationCap className="h-5 w-5" />
               </div>
               <span className="font-semibold text-sm tracking-wider bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                SEMS
+                CampusDesk
               </span>
             </Link>
           </div>
@@ -150,11 +150,11 @@ export default function DashboardLayout({
 
           {/* Action buttons */}
           <div className="flex items-center gap-4">
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg transition-colors cursor-pointer relative">
+            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer relative">
               <Bell className="h-5 w-5" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-slate-950 animate-pulse" />
+              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-slate-900 animate-pulse" />
             </button>
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg transition-colors cursor-pointer">
+            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
               <Settings className="h-5 w-5" />
             </button>
             
