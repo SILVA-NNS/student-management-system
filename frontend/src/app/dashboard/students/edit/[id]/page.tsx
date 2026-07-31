@@ -1,0 +1,357 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import API from "@/services/api";
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  BookOpen, 
+  MapPin, 
+  Calendar,
+  Loader2,
+  ArrowLeft,
+  Save
+} from "lucide-react";
+import Link from "next/link";
+
+export default function EditStudent() {
+  const router = useRouter();
+  const params = useParams();
+  const studentDbId = params.id as string;
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [course, setCourse] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [address, setAddress] = useState("");
+  const [registrationDate, setRegistrationDate] = useState("");
+  const [studentId, setStudentId] = useState(""); // read-only unique ID
+  
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    async function fetchStudentDetails() {
+      try {
+        const response = await API.get(`/api/students/${studentDbId}`);
+        const student = response.data;
+        
+        setFullName(student.fullName);
+        setEmail(student.email);
+        setPhoneNumber(student.phoneNumber || "");
+        setCourse(student.course);
+        setAge(student.age.toString());
+        setGender(student.gender);
+        setAddress(student.address || "");
+        setStudentId(student.studentId);
+        
+        if (student.registrationDate) {
+          setRegistrationDate(student.registrationDate);
+        }
+      } catch (err: any) {
+        console.error(err);
+        setError("Failed to fetch student record details.");
+      } finally {
+        setFetching(false);
+      }
+    }
+
+    if (studentDbId) {
+      fetchStudentDetails();
+    }
+  }, [studentDbId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    // Basic Validation
+    if (!fullName || !email || !course || !age || !gender) {
+      setError("Please fill in all required fields marked with *");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await API.put(`/api/students/${studentDbId}`, {
+        fullName,
+        email,
+        phoneNumber,
+        course,
+        age: parseInt(age),
+        gender,
+        address,
+        registrationDate
+      });
+      
+      router.push("/dashboard/students");
+    } catch (err: any) {
+      if (err.response?.data) {
+        setError(typeof err.response.data === "string" ? err.response.data : "Failed to update student record");
+      } else {
+        setError("Unable to connect to the backend server. Please verify it is running.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (fetching) {
+    return (
+      <div className="p-20 flex flex-col justify-center items-center gap-3 text-slate-400">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
+        <span className="text-sm font-medium">Fetching student details...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6 animate-fadeIn">
+      {/* Back button and title */}
+      <div className="space-y-4">
+        <Link 
+          href="/dashboard/students" 
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Back to Directory</span>
+        </Link>
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-white">Edit Student Record</h2>
+          <p className="text-sm text-slate-400">
+            Updating profile for <span className="text-indigo-400 font-semibold">{fullName}</span> ({studentId})
+          </p>
+        </div>
+      </div>
+
+      {/* Form Container */}
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/85 rounded-3xl p-6 sm:p-8 shadow-xl">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 text-sm rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-center">
+              {error}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Student ID (Read Only) */}
+            <div className="space-y-2 sm:col-span-2">
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+                Student ID (Read-Only)
+              </label>
+              <input
+                type="text"
+                disabled
+                value={studentId}
+                className="w-full px-4 py-3 bg-slate-950/20 border border-slate-800/60 rounded-xl text-slate-500 font-mono text-xs font-bold"
+              />
+            </div>
+
+            {/* Full Name */}
+            <div className="space-y-2">
+              <label htmlFor="fullName" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Full Name <span className="text-indigo-400">*</span>
+              </label>
+              <div className="relative group">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <User className="h-5 w-5" />
+                </span>
+                <input
+                  id="fullName"
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="John Doe"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Email Address */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Email Address <span className="text-indigo-400">*</span>
+              </label>
+              <div className="relative group">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <Mail className="h-5 w-5" />
+                </span>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="john.doe@email.com"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Phone Number */}
+            <div className="space-y-2">
+              <label htmlFor="phoneNumber" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Phone Number
+              </label>
+              <div className="relative group">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <input
+                  id="phoneNumber"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="+94 77 123 4567"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Course */}
+            <div className="space-y-2">
+              <label htmlFor="course" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Course <span className="text-indigo-400">*</span>
+              </label>
+              <div className="relative group">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <BookOpen className="h-5 w-5" />
+                </span>
+                <select
+                  id="course"
+                  required
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-150 transition-all appearance-none cursor-pointer"
+                >
+                  <option value="" className="bg-slate-950 text-slate-500">Select a course...</option>
+                  <option value="Computer Science" className="bg-slate-950">Computer Science</option>
+                  <option value="Software Engineering" className="bg-slate-950">Software Engineering</option>
+                  <option value="Information Technology" className="bg-slate-950">Information Technology</option>
+                  <option value="Business Administration" className="bg-slate-950">Business Administration</option>
+                  <option value="Data Science" className="bg-slate-950">Data Science</option>
+                  <option value="Cyber Security" className="bg-slate-950">Cyber Security</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Age */}
+            <div className="space-y-2">
+              <label htmlFor="age" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Age <span className="text-indigo-400">*</span>
+              </label>
+              <input
+                id="age"
+                type="number"
+                required
+                min="16"
+                max="100"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="21"
+                className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all"
+              />
+            </div>
+
+            {/* Gender */}
+            <div className="space-y-2">
+              <label htmlFor="gender" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Gender <span className="text-indigo-400">*</span>
+              </label>
+              <div className="flex gap-4 pt-1">
+                <label className="flex-1 flex items-center justify-center gap-2 py-3 bg-slate-950/40 hover:bg-slate-950/70 border border-slate-800 rounded-xl cursor-pointer transition-all has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-500/5 text-sm">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={gender === "Male"}
+                    onChange={() => setGender("Male")}
+                    className="accent-indigo-500 h-4 w-4"
+                  />
+                  <span>Male</span>
+                </label>
+                <label className="flex-1 flex items-center justify-center gap-2 py-3 bg-slate-950/40 hover:bg-slate-950/70 border border-slate-800 rounded-xl cursor-pointer transition-all has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-500/5 text-sm">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={gender === "Female"}
+                    onChange={() => setGender("Female")}
+                    className="accent-indigo-500 h-4 w-4"
+                  />
+                  <span>Female</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Registration Date */}
+            <div className="space-y-2 sm:col-span-2">
+              <label htmlFor="registrationDate" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Registration Date <span className="text-indigo-400">*</span>
+              </label>
+              <div className="relative group">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <Calendar className="h-5 w-5" />
+                </span>
+                <input
+                  id="registrationDate"
+                  type="date"
+                  required
+                  value={registrationDate}
+                  onChange={(e) => setRegistrationDate(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-150 transition-all cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="space-y-2 sm:col-span-2">
+              <label htmlFor="address" className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                Home Address
+              </label>
+              <div className="relative group">
+                <span className="absolute top-3.5 left-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                  <MapPin className="h-5 w-5" />
+                </span>
+                <textarea
+                  id="address"
+                  rows={3}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Street Address, City, Country"
+                  className="w-full pl-10 pr-4 py-3.5 bg-slate-950/40 border border-slate-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 text-slate-100 placeholder-slate-650 transition-all resize-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Action */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full flex justify-center items-center gap-2 py-3.5 px-4 bg-indigo-650 hover:bg-indigo-600 active:bg-indigo-700 disabled:bg-indigo-850 text-white text-sm font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg shadow-indigo-950/40 border border-indigo-500/20"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Saving changes...</span>
+              </>
+            ) : (
+              <>
+                <Save className="h-5 w-5" />
+                <span>Save Changes</span>
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
